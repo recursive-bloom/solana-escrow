@@ -15,7 +15,7 @@ pub enum EscrowInstruction {
     /// 3. `[writable]` The escrow account, it will hold all necessary info about the trade.
     /// 4. `[]` The rent sysvar
     /// 5. `[]` The token program
-    InitEscrow {
+    Deposit {
         /// The amount party A expects to receive of token Y
         amount: u64,
     },
@@ -33,7 +33,7 @@ pub enum EscrowInstruction {
     /// 6. `[writable]` The escrow account holding the escrow info
     /// 7. `[]` The token program
     /// 8. `[]` The PDA account
-    Exchange {
+    Withdraw {
         /// the amount the taker expects to be paid in the other token, as a u64 because that's the max possible supply of a token
         amount: u64,
     },
@@ -45,10 +45,10 @@ impl EscrowInstruction {
         let (tag, rest) = input.split_first().ok_or(InvalidInstruction)?;
 
         Ok(match tag {
-            0 => Self::InitEscrow {
+            0 => Self::Deposit {
                 amount: Self::unpack_amount(rest)?,
             },
-            1 => Self::Exchange {
+            1 => Self::Withdraw {
                 amount: Self::unpack_amount(rest)?,
             },
             _ => return Err(InvalidInstruction.into()),
