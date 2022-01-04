@@ -4,6 +4,7 @@
       "outDir": "./build",
       "lib": ["ESNext"],
       "strict": true,
-      "skipLibCheck": true
+      "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
   }
 }

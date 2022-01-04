@@ -57,12 +57,19 @@ const setup = async () => {
   const bobPublicKey = getPublicKey("bob");
   const clientKeypair = getKeypair("id");
 
-  const connection = new Connection("http://localhost:8899", "confirmed");
+  const connection = new Connection(
+    "https://api.devnet.solana.com",
+    "confirmed"
+  );
   console.log("Requesting SOL for Alice...");
   // some networks like the local network provide an airdrop function (mainnet of course does not)
   await connection.requestAirdrop(alicePublicKey, LAMPORTS_PER_SOL * 10);
+
+  await new Promise((resolve) => setTimeout(resolve, 10000));
   console.log("Requesting SOL for Bob...");
   await connection.requestAirdrop(bobPublicKey, LAMPORTS_PER_SOL * 10);
+
+  await new Promise((resolve) => setTimeout(resolve, 10000));
   console.log("Requesting SOL for Client...");
   await connection.requestAirdrop(
     clientKeypair.publicKey,
